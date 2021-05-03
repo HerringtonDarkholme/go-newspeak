@@ -1,4 +1,4 @@
-package basic
+package main
 
 import (
 	ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
