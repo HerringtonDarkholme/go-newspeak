@@ -4,7 +4,7 @@ import (
 	"github.com/HerringtonDarkholme/go-newspeak/pkg/op"
 )
 
-type TimeColumn struct {
+type BoolColumn struct {
 	name string
 	op   op.OpInternal
 }

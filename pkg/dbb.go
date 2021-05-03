@@ -8,46 +8,50 @@ type DBB struct {
 	db *gorm.DB
 }
 
-func (dbb *DBB) Table() *DBB {
+func (dbb *DBB) Table(tables ...TableSpecifier) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Select() *DBB {
+func (dbb *DBB) Select(expr ...Expression) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Where() *DBB {
+func (dbb *DBB) Where(conditions ...WhereCondition) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Group() *DBB {
+func (dbb *DBB) Group(expr ...Expression) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Having() *DBB {
+func (dbb *DBB) Having(conditions ...WhereCondition) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Window() *DBB {
+func (dbb *DBB) Window(specs ...WindowSpec) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Limit() *DBB {
+func (dbb *DBB) Limit(limit int64) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Offset() *DBB {
+func (dbb *DBB) Offset(offset int64) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Join() *DBB {
+func (dbb *DBB) Join(tables ...TableSpecifier) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) On() *DBB {
+func (dbb *DBB) On(conditions ...WhereCondition) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Union() *DBB {
+func (dbb *DBB) Union(tables ...WhereCondition) *DBB {
 	return dbb
+}
+
+func (dbb *DBB) Find(users interface{}) error {
+	return nil
 }
