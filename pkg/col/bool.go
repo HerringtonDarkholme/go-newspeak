@@ -68,7 +68,7 @@ func (c *BoolColumn) As(alias string) *BoolColumn {
 
 // Implement WhereCondition
 func (c *BoolColumn) ToConditionText() string {
-	return ""
+	return c.name
 }
 
 // Implement WhereCondition

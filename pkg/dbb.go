@@ -5,14 +5,59 @@ import (
 )
 
 type DBB struct {
-	db *gorm.DB
+	db     *gorm.DB
+	Select SelectFn
+	Order  OrderFn
+	Union  UnionFn
+	Join   JoinFn
+}
+
+type SelectFn func(...SelectExpr) *DBB
+type OrderFn func(...Expression) *DBB
+type UnionFn func(...TableSpecifier) *DBB
+type JoinFn func(...TableSpecifier) *DBB
+
+func (fn SelectFn) Distinct(exprs ...SelectExpr) *DBB {
+	return fn(exprs...)
+}
+func (fn SelectFn) All(exprs ...SelectExpr) *DBB {
+	return fn(exprs...)
+}
+func (fn SelectFn) DistinctRow(exprs ...SelectExpr) *DBB {
+	return fn(exprs...)
+}
+
+func (fn OrderFn) Asc(exprs ...Expression) *DBB {
+	return fn(exprs...)
+}
+func (fn OrderFn) Desc(exprs ...Expression) *DBB {
+	return fn(exprs...)
+}
+
+func (fn UnionFn) All(tables ...TableSpecifier) *DBB {
+	return fn(tables...)
+}
+func (fn UnionFn) Distinct(tables ...TableSpecifier) *DBB {
+	return fn(tables...)
+}
+
+func (fn JoinFn) Inner(tables ...TableSpecifier) *DBB {
+	return fn(tables...)
+}
+func (fn JoinFn) Outer(tables ...TableSpecifier) *DBB {
+	return fn(tables...)
+}
+func (fn JoinFn) Left(tables ...TableSpecifier) *DBB {
+	return fn(tables...)
+}
+func (fn JoinFn) Right(tables ...TableSpecifier) *DBB {
+	return fn(tables...)
+}
+func (fn JoinFn) Cross(tables ...TableSpecifier) *DBB {
+	return fn(tables...)
 }
 
 func (dbb *DBB) Table(tables ...TableSpecifier) *DBB {
-	return dbb
-}
-
-func (dbb *DBB) Select(expr ...SelectExpr) *DBB {
 	return dbb
 }
 
@@ -40,18 +85,10 @@ func (dbb *DBB) Offset(offset int64) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Join(tables ...TableSpecifier) *DBB {
-	return dbb
-}
-
 func (dbb *DBB) On(conditions ...WhereCondition) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Union(tables ...WhereCondition) *DBB {
-	return dbb
-}
-
-func (dbb *DBB) Find(users interface{}) error {
-	return nil
+func (dbb *DBB) Find(dest interface{}) error {
+	return dbb.db.Find(dest).Error
 }

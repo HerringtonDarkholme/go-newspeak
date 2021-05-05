@@ -160,7 +160,7 @@ func (c *GenericColumn) ToConditionText() string {
 
 // Implement WhereCondition
 func (c GenericColumn) ToExprText() string {
-	return ""
+	return c.name
 }
 
 var _ op.GenericOp = (*GenericColumn)(nil)

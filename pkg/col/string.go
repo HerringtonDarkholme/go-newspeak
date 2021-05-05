@@ -91,7 +91,7 @@ func (c *StringColumn) As(alias string) *StringColumn {
 
 // Implement Expr
 func (c StringColumn) ToExprText() string {
-	return ""
+	return c.name
 }
 
 var _ op.StringLikeOp = (*StringColumn)(nil)

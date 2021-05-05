@@ -113,7 +113,7 @@ func (c *FloatColumn) As(alias string) *FloatColumn {
 
 // Implement WhereCondition
 func (c FloatColumn) ToExprText() string {
-	return ""
+	return c.name
 }
 
 var _ op.NumberLikeOp = (*FloatColumn)(nil)

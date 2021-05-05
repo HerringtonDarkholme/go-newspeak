@@ -155,7 +155,7 @@ func (c *IntColumn) As(alias string) *IntColumn {
 
 // Implement WhereCondition
 func (c IntColumn) ToExprText() string {
-	return ""
+	return c.name
 }
 
 var _ op.IntLikeOp = (*IntColumn)(nil)

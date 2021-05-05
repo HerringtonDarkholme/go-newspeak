@@ -85,7 +85,7 @@ func (c *TimeColumn) As(alias string) *TimeColumn {
 
 // Implement WhereCondition
 func (c TimeColumn) ToExprText() string {
-	return ""
+	return c.name
 }
 
 var _ op.DateLikeOp = (*TimeColumn)(nil)
