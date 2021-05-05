@@ -12,7 +12,7 @@ func (dbb *DBB) Table(tables ...TableSpecifier) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Select(expr ...Expression) *DBB {
+func (dbb *DBB) Select(expr ...SelectExpr) *DBB {
 	return dbb
 }
 

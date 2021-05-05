@@ -1,9 +1,9 @@
 package fn
 
-import (
-	col "github.com/HerringtonDarkholme/go-newspeak/pkg/col"
-)
+func Avg() AggregateExpr {
+	return nil
+}
 
-func Avg() col.GenericColumn {
-	return col.GenericColumn{}
+func Count() AggregateExpr {
+	return nil
 }
