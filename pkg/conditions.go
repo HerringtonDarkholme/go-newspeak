@@ -13,6 +13,7 @@ type TableSpecifier interface {
 }
 
 type Expression interface {
+	ToExprText() string
 }
 
 type SelectExpr interface {

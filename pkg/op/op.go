@@ -1,40 +1,56 @@
 package op
 
+import (
+	ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
+)
+
 type LiteralOrColumn interface {
 }
 
 type GenericOp interface {
-	ComparisonOp
+	EqualOp
+	ComparativeOp
 	RangeOp
-	InclusionOp
+	InclusiveOp
 	ArithmeticOp
 	BitwiseOp
 	LogicalOp
 	PatternOp
+	ns.WhereCondition
+	ns.Expression
 }
 
 type CommonOp interface {
-	ComparisonOp
+	EqualOp
 	RangeOp
-	InclusionOp
+	InclusiveOp
+	ns.Expression
 }
 
 type IntLikeOp interface {
-	CommonOp
-	ArithmeticOp
+	NumberLikeOp
+	BitwiseOp
 }
 
 type NumberLikeOp interface {
-	IntLikeOp
-	BitwiseOp
+	CommonOp
+	ComparativeOp
+	ArithmeticOp
 }
 
 type BoolLikeOp interface {
 	CommonOp
 	LogicalOp
+	ns.WhereCondition
 }
 
 type StringLikeOp interface {
 	CommonOp
+	ComparativeOp
 	PatternOp
+}
+
+type DateLikeOp interface {
+	CommonOp
+	ComparativeOp
 }

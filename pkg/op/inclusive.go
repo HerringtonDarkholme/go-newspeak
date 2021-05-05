@@ -1,6 +1,6 @@
 package op
 
-type InclusionOp interface {
+type InclusiveOp interface {
 	In(...LiteralOrColumn) BoolLikeOp
 	NotIn(...LiteralOrColumn) BoolLikeOp
 }
