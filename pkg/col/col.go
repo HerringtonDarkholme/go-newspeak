@@ -1,4 +1,5 @@
 package col
 
-type LiteralOrColumn interface {
-}
+import "github.com/HerringtonDarkholme/go-newspeak/pkg/op"
+
+type LiteralOrColumn = op.LiteralOrColumn

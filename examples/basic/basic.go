@@ -15,12 +15,18 @@ type UserDB struct {
 	Name, Age, Salary col.GenericColumn
 }
 
+func (*UserDB) ToTableText() string {
+	return "user"
+}
+
 func test() {
-	dbb := ns.DBB{}
-	u := UserDB{}
+	dbb := new(ns.DBB)
+	u := new(UserDB)
 	users := make([]*User, 0)
 
 	dbb.
+		Table(u).
 		Where(u.Age.Eq(u.Age)).
+		Group(u.Name).
 		Find(&users)
 }

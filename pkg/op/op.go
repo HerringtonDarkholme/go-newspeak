@@ -1,19 +1,40 @@
 package op
 
-import (
-	ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
-)
-
-type OpInternal struct {
+type LiteralOrColumn interface {
 }
 
-type CaseStruct struct {
+type GenericOp interface {
+	ComparisonOp
+	RangeOp
+	InclusionOp
+	ArithmeticOp
+	BitwiseOp
+	LogicalOp
+	PatternOp
 }
 
-func (c *CaseStruct) When(expr, result ns.Expression) *CaseStruct {
-	return c
+type CommonOp interface {
+	ComparisonOp
+	RangeOp
+	InclusionOp
 }
 
-func (c *CaseStruct) Else(expr ns.Expression) ns.Expression {
-	return nil
+type IntLikeOp interface {
+	CommonOp
+	ArithmeticOp
+}
+
+type NumberLikeOp interface {
+	IntLikeOp
+	BitwiseOp
+}
+
+type BoolLikeOp interface {
+	CommonOp
+	LogicalOp
+}
+
+type StringLikeOp interface {
+	CommonOp
+	PatternOp
 }

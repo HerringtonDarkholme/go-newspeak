@@ -1,143 +1,161 @@
 package col
 
 import (
-	ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
 	"github.com/HerringtonDarkholme/go-newspeak/pkg/op"
 )
 
 type GenericColumn struct {
-	name string
-	op   op.OpInternal
+	name  string
+	alias string
 }
 
-func (c *GenericColumn) Eq(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Eq(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Ne(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Ne(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Gte(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Gte(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Gt(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Gt(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Lte(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Lte(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Lt(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Lt(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) NullSafeEq(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) NullSafeEq(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Not() ns.Expression {
+func (c *GenericColumn) Not() op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Is(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Is(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) And(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) And(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Or(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Or(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Xor(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Xor(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Between(start, end LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Between(start, end LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) NotBetween(start, end LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) NotBetween(start, end LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) In(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) In(others ...LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) NotIn(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) NotIn(others ...LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Like(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Like(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) NotLike(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) NotLike(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Regexp(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Regexp(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) NotRegexp(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) NotRegexp(other LiteralOrColumn) op.BoolLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Mul(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Mul(other LiteralOrColumn) op.NumberLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Add(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Add(other LiteralOrColumn) op.NumberLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Sub(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Sub(other LiteralOrColumn) op.NumberLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Neg() ns.Expression {
+func (c *GenericColumn) Neg() op.NumberLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Div(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Div(other LiteralOrColumn) op.NumberLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) Mod(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) Mod(other LiteralOrColumn) op.NumberLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) FloorDiv(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) FloorDiv(other LiteralOrColumn) op.NumberLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) RightShift(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) RightShift(other LiteralOrColumn) op.IntLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) LeftShift(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) LeftShift(other LiteralOrColumn) op.IntLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) BitXor(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) BitXor(other LiteralOrColumn) op.IntLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) BitOr(other LiteralOrColumn) ns.Expression {
+func (c *GenericColumn) BitAnd(other LiteralOrColumn) op.IntLikeOp {
 	return nil
 }
 
-func (c *GenericColumn) BitFlip() ns.Expression {
+func (c *GenericColumn) BitOr(other LiteralOrColumn) op.IntLikeOp {
+	return nil
+}
+
+func (c *GenericColumn) BitFlip() op.IntLikeOp {
 	return nil
 }
 
 func (c *GenericColumn) Case() *op.CaseStruct {
 	return nil
 }
+
+func (c *GenericColumn) As(alias string) *GenericColumn {
+	if c.alias != "" {
+		panic("column alias cannot be reused!")
+	}
+	c.alias = alias
+	return c
+}
+
+// Implement WhereCondition
+func (c *GenericColumn) ToConditionText() string {
+	return ""
+}
+
+var _ op.GenericOp = (*GenericColumn)(nil)
