@@ -92,3 +92,11 @@ func (dbb *DBB) On(conditions ...WhereCondition) *DBB {
 func (dbb *DBB) Find(dest interface{}) error {
 	return dbb.db.Find(dest).Error
 }
+
+// do not export this type, only string literal is permitted
+type rawSql string
+
+// an escape hatch for ultimatly complicated beast SQL
+func (dbb *DBB) Query(sql rawSql, args ...interface{}) *DBB {
+    return dbb
+}

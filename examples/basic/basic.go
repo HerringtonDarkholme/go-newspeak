@@ -29,4 +29,10 @@ func test() {
 		Where(u.Age.Eq(u.Age)).
 		Group(u.Name).
 		Find(&users)
+
+    // works!
+    dbb.Query("select * from absolutely_complicate_query")
+    // does not work
+    // s := "selct * from" + "bad_boy"
+    // dbb.Query(s) // error
 }
