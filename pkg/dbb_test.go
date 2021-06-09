@@ -19,6 +19,7 @@ func (u *UserTable) ToTableText() string {
 func TestQueryGeneration(t *testing.T) {
 	dbb, mock := newDBB(t)
 	expectSQl := func(db *DBB, sql string) {
+		// quotemeta is required since sqlmock is in regex mode
 		mock.ExpectQuery(regexp.QuoteMeta(sql)).
 			WillReturnRows(sqlmock.NewRows(nil))
 		dbb.Find(map[string]interface{}{})
