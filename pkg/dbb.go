@@ -57,7 +57,8 @@ func (fn JoinFn) Cross(tables ...TableSpecifier) *DBB {
 	return fn(tables...)
 }
 
-func (dbb *DBB) Table(tables ...TableSpecifier) *DBB {
+func (dbb *DBB) Table(table TableSpecifier) *DBB {
+	dbb.db = dbb.db.Table(table.ToTableText())
 	return dbb
 }
 

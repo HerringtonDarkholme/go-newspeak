@@ -9,15 +9,25 @@ import (
 	"gorm.io/gorm"
 )
 
+type UserTable struct {
+}
+
+func (u *UserTable) ToTableText() string {
+	return "test"
+}
+
 func TestQueryGeneration(t *testing.T) {
 	dbb, mock := newDBB(t)
+	expectSQl := func(db *DBB, sql string) {
+		mock.ExpectQuery(regexp.QuoteMeta(sql)).
+			WillReturnRows(sqlmock.NewRows(nil))
+		dbb.Find(map[string]interface{}{})
+	}
+	u := &UserTable{}
 
-	mock.MatchExpectationsInOrder(false)
-	mock.ExpectQuery(regexp.QuoteMeta("SELECT * FROM `test`")).
-		WillReturnRows(sqlmock.NewRows(nil))
+	expectSQl(dbb.Table(u), "SELECT * FROM `test`")
 
 	// sub := dbb.db.Raw("avg(we)")
-	dbb.db.Debug().Table("test").Find(map[string]interface{}{})
 
 	if err := mock.ExpectationsWereMet(); err != nil {
 		t.Errorf("unfulfilled expectations: %s", err)
