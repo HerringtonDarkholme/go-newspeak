@@ -6,15 +6,25 @@ import (
 
 type GenericColumn struct {
 	name  string
+	table string
 	alias string
+	op    op.Operator
 }
 
 func (c *GenericColumn) Eq(other LiteralOrColumn) op.BoolLikeOp {
-	return nil
+	return &GenericColumn{
+		name:  c.name,
+		table: c.table,
+		alias: c.alias,
+		op: op.Operator{
+			OpString: "=",
+			OpType:   op.Binary,
+		},
+	}
 }
 
 func (c *GenericColumn) Ne(other LiteralOrColumn) op.BoolLikeOp {
-	return nil
+	return &GenericColumn{}
 }
 
 func (c *GenericColumn) Gte(other LiteralOrColumn) op.BoolLikeOp {

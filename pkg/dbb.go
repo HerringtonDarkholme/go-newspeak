@@ -98,5 +98,5 @@ type rawSql string
 
 // an escape hatch for ultimatly complicated beast SQL
 func (dbb *DBB) Query(sql rawSql, args ...interface{}) *DBB {
-    return dbb
+	return dbb
 }

@@ -4,6 +4,18 @@ import (
 	ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
 )
 
+type OpType uint8
+
+const (
+	Binary OpType = iota + 1
+	Prefix
+)
+
+type Operator struct {
+	OpString string
+	OpType   OpType
+}
+
 type LiteralOrColumn interface {
 }
 
