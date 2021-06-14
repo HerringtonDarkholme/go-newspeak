@@ -1,6 +1,9 @@
 package col
 
-import "github.com/HerringtonDarkholme/go-newspeak/pkg/op"
+import (
+	"github.com/HerringtonDarkholme/go-newspeak/pkg/conditions"
+	"github.com/HerringtonDarkholme/go-newspeak/pkg/op"
+)
 
 type BoolColumn struct {
 	alias string
@@ -67,8 +70,11 @@ func (c *BoolColumn) As(alias string) *BoolColumn {
 }
 
 // Implement WhereCondition
-func (c *BoolColumn) ToConditionText() string {
-	return c.name
+func (c *BoolColumn) ToCondition() conditions.Condition {
+	return conditions.Condition{
+		Query: c.name,
+		Args:  []interface{}{},
+	}
 }
 
 // Implement WhereCondition

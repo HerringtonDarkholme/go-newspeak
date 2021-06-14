@@ -80,6 +80,10 @@ func (dbb *DBB) Table(table cond.TableSpecifier) *DBB {
 }
 
 func (dbb *DBB) Where(conditions ...cond.WhereCondition) *DBB {
+	for _, cond := range conditions {
+		c := cond.ToCondition()
+		dbb.db.Where(c.Query, c.Args...)
+	}
 	return dbb
 }
 

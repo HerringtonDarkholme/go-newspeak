@@ -1,6 +1,7 @@
 package newspeak
 
 import (
+	"database/sql/driver"
 	"regexp"
 	"testing"
 
@@ -37,9 +38,12 @@ func newDBB(t *testing.T) (*DBB, sqlmock.Sqlmock) {
 	return dbb, mock
 }
 
+type Args = []driver.Value
+
 type testCase struct {
-	dbb *DBB
-	sql string
+	dbb  *DBB
+	sql  string
+	args Args
 }
 
 func expectSQl(mock sqlmock.Sqlmock, tests []testCase) func(*testing.T) {
@@ -47,6 +51,7 @@ func expectSQl(mock sqlmock.Sqlmock, tests []testCase) func(*testing.T) {
 		dbb, sql := test.dbb, test.sql
 		// quotemeta is required since sqlmock is in regex mode
 		mock.ExpectQuery(regexp.QuoteMeta(sql)).
+			WithArgs(test.args...).
 			WillReturnRows(sqlmock.NewRows(nil))
 		_ = dbb.Find(map[string]interface{}{})
 	}
@@ -65,11 +70,14 @@ func TestQueryGeneration(t *testing.T) {
 	}
 	cases := map[string][]testCase{
 		"Simple Query": {
-			{dbb.Table(u), "SELECT * FROM `test`"},
+			{dbb.Table(u), "SELECT * FROM `test`", nil},
 		},
 		"Select Field": {
-			{dbb.Table(u).Select(u.Name), "SELECT name FROM `test`"},
-			{dbb.Table(u).Select(u.Age), "SELECT age FROM `test`"},
+			{dbb.Table(u).Select(u.Name), "SELECT name FROM `test`", nil},
+			{dbb.Table(u).Select(u.Age), "SELECT age FROM `test`", nil},
+		},
+		"Simple Where": {
+			{dbb.Table(u).Where(u.Name.Eq("Orwell")), "SELECT * FROM `test` WHERE name=?", Args{"Orwell"}},
 		},
 	}
 

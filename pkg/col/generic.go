@@ -1,25 +1,26 @@
 package col
 
 import (
+	"github.com/HerringtonDarkholme/go-newspeak/pkg/conditions"
 	"github.com/HerringtonDarkholme/go-newspeak/pkg/op"
 )
 
 type GenericColumn struct {
 	name  string
-	table string
 	alias string
 	op    op.Operator
+	arg   interface{}
 }
 
 func (c *GenericColumn) Eq(other LiteralOrColumn) op.BoolLikeOp {
 	return &GenericColumn{
 		name:  c.name,
-		table: c.table,
 		alias: c.alias,
 		op: op.Operator{
 			OpString: "=",
 			OpType:   op.Binary,
 		},
+		arg: other,
 	}
 }
 
@@ -164,8 +165,11 @@ func (c *GenericColumn) As(alias string) *GenericColumn {
 }
 
 // Implement WhereCondition
-func (c *GenericColumn) ToConditionText() string {
-	return ""
+func (c *GenericColumn) ToCondition() conditions.Condition {
+	return conditions.Condition{
+		Query: c.name + c.op.OpString + "?",
+		Args:  []interface{}{c.arg},
+	}
 }
 
 // Implement WhereCondition

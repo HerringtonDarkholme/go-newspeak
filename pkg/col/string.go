@@ -10,7 +10,14 @@ type StringColumn struct {
 }
 
 func (c *StringColumn) Eq(other LiteralOrColumn) op.BoolLikeOp {
-	return nil
+	return &GenericColumn{
+		name: c.name,
+		op: op.Operator{
+			OpString: "=",
+			OpType:   op.Binary,
+		},
+		arg: other,
+	}
 }
 
 func (c *StringColumn) Ne(other LiteralOrColumn) op.BoolLikeOp {

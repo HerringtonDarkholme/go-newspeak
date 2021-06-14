@@ -1,9 +1,14 @@
 package conditions
 
+type Condition struct {
+	Query string
+	Args  []interface{}
+}
+
 // where_condition is an expression that evaluates to true for each row to be selected
 // cannot reference aggregate
 type WhereCondition interface {
-	ToConditionText() string
+	ToCondition() Condition
 }
 
 type TableSpecifier interface {
