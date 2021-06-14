@@ -157,5 +157,15 @@ func (c *IntColumn) As(alias string) *IntColumn {
 func (c IntColumn) ToExprText() string {
 	return c.name
 }
+func (c IntColumn) ToSelectText() string {
+	if c.alias != "" {
+		return c.name + " AS " + c.alias
+	}
+	return c.name
+}
+
+func NewInt(name string) IntColumn {
+	return IntColumn{name: name}
+}
 
 var _ op.IntLikeOp = (*IntColumn)(nil)

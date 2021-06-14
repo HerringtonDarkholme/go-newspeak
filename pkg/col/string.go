@@ -5,7 +5,7 @@ import (
 )
 
 type StringColumn struct {
-	Name  string
+	name  string
 	alias string
 }
 
@@ -91,14 +91,18 @@ func (c *StringColumn) As(alias string) *StringColumn {
 
 // Implement Expr
 func (c StringColumn) ToExprText() string {
-	return c.Name
+	return c.name
 }
 
 func (c StringColumn) ToSelectText() string {
 	if c.alias != "" {
-		return c.Name + " AS " + c.alias
+		return c.name + " AS " + c.alias
 	}
-	return c.Name
+	return c.name
+}
+
+func NewStr(name string) StringColumn {
+	return StringColumn{name: name}
 }
 
 var _ op.StringLikeOp = (*StringColumn)(nil)

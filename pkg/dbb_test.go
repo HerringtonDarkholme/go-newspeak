@@ -28,11 +28,13 @@ func TestQueryGeneration(t *testing.T) {
 		_ = dbb.Find(map[string]interface{}{})
 	}
 	u := &UserTable{
-		Name: col.StringColumn{Name: "name"},
+		Name: col.NewStr("name"),
+		Age:  col.NewInt("age"),
 	}
 
 	expectSQl(dbb.Table(u), "SELECT * FROM `test`")
 	expectSQl(dbb.Table(u).Select(u.Name), "SELECT name FROM `test`")
+	expectSQl(dbb.Table(u).Select(u.Age), "SELECT age FROM `test`")
 
 	// sub := dbb.db.Raw("avg(we)")
 

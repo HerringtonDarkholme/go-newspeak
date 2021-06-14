@@ -6,12 +6,11 @@ import (
 )
 
 type DBB struct {
-	db      *gorm.DB
-	Select  SelectFn
-	Order   OrderFn
-	Union   UnionFn
-	Join    JoinFn
-	selectd []string
+	db     *gorm.DB
+	Select SelectFn
+	Order  OrderFn
+	Union  UnionFn
+	Join   JoinFn
 }
 
 func New(db *gorm.DB) *DBB {
@@ -23,7 +22,7 @@ func New(db *gorm.DB) *DBB {
 		for _, expr := range exprs {
 			selected = append(selected, expr.ToSelectText())
 		}
-		dbb.selectd = selected
+		dbb.db.Select(selected)
 		return dbb
 	}
 	return dbb
@@ -108,9 +107,6 @@ func (dbb *DBB) On(conditions ...cond.WhereCondition) *DBB {
 }
 
 func (dbb *DBB) Find(dest interface{}) error {
-	if len(dbb.selectd) > 0 {
-		return dbb.db.Select(dbb.selectd).Find(dest).Error
-	}
 	return dbb.db.Find(dest).Error
 }
 
