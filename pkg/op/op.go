@@ -1,7 +1,7 @@
 package op
 
 import (
-	ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
+	ns "github.com/HerringtonDarkholme/go-newspeak/pkg/conditions"
 )
 
 type OpType uint8

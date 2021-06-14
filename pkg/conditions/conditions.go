@@ -1,4 +1,4 @@
-package newspeak
+package conditions
 
 // where_condition is an expression that evaluates to true for each row to be selected
 // cannot reference aggregate

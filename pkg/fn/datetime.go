@@ -1,7 +1,7 @@
 package fn
 
 import (
-	ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
+	ns "github.com/HerringtonDarkholme/go-newspeak/pkg/conditions"
 )
 
 // https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html

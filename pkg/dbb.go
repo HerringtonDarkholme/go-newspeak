@@ -1,80 +1,97 @@
 package newspeak
 
 import (
+	cond "github.com/HerringtonDarkholme/go-newspeak/pkg/conditions"
 	"gorm.io/gorm"
 )
 
 type DBB struct {
-	db     *gorm.DB
-	Select SelectFn
-	Order  OrderFn
-	Union  UnionFn
-	Join   JoinFn
+	db      *gorm.DB
+	Select  SelectFn
+	Order   OrderFn
+	Union   UnionFn
+	Join    JoinFn
+	selectd []string
 }
 
-type SelectFn func(...SelectExpr) *DBB
-type OrderFn func(...Expression) *DBB
-type UnionFn func(...TableSpecifier) *DBB
-type JoinFn func(...TableSpecifier) *DBB
+func New(db *gorm.DB) *DBB {
+	dbb := &DBB{
+		db: db,
+	}
+	dbb.Select = func(exprs ...cond.SelectExpr) *DBB {
+		selected := make([]string, 0, len(exprs))
+		for _, expr := range exprs {
+			selected = append(selected, expr.ToSelectText())
+		}
+		dbb.selectd = selected
+		return dbb
+	}
+	return dbb
+}
 
-func (fn SelectFn) Distinct(exprs ...SelectExpr) *DBB {
+type SelectFn func(...cond.SelectExpr) *DBB
+type OrderFn func(...cond.Expression) *DBB
+type UnionFn func(...cond.TableSpecifier) *DBB
+type JoinFn func(...cond.TableSpecifier) *DBB
+
+func (fn SelectFn) Distinct(exprs ...cond.SelectExpr) *DBB {
 	return fn(exprs...)
 }
-func (fn SelectFn) All(exprs ...SelectExpr) *DBB {
+func (fn SelectFn) All(exprs ...cond.SelectExpr) *DBB {
 	return fn(exprs...)
 }
-func (fn SelectFn) DistinctRow(exprs ...SelectExpr) *DBB {
-	return fn(exprs...)
-}
-
-func (fn OrderFn) Asc(exprs ...Expression) *DBB {
-	return fn(exprs...)
-}
-func (fn OrderFn) Desc(exprs ...Expression) *DBB {
+func (fn SelectFn) DistinctRow(exprs ...cond.SelectExpr) *DBB {
 	return fn(exprs...)
 }
 
-func (fn UnionFn) All(tables ...TableSpecifier) *DBB {
+func (fn OrderFn) Asc(exprs ...cond.Expression) *DBB {
+	return fn(exprs...)
+}
+func (fn OrderFn) Desc(exprs ...cond.Expression) *DBB {
+	return fn(exprs...)
+}
+
+func (fn UnionFn) All(tables ...cond.TableSpecifier) *DBB {
 	return fn(tables...)
 }
-func (fn UnionFn) Distinct(tables ...TableSpecifier) *DBB {
+func (fn UnionFn) Distinct(tables ...cond.TableSpecifier) *DBB {
 	return fn(tables...)
 }
 
-func (fn JoinFn) Inner(tables ...TableSpecifier) *DBB {
+func (fn JoinFn) Inner(tables ...cond.TableSpecifier) *DBB {
 	return fn(tables...)
 }
-func (fn JoinFn) Outer(tables ...TableSpecifier) *DBB {
+func (fn JoinFn) Outer(tables ...cond.TableSpecifier) *DBB {
 	return fn(tables...)
 }
-func (fn JoinFn) Left(tables ...TableSpecifier) *DBB {
+func (fn JoinFn) Left(tables ...cond.TableSpecifier) *DBB {
 	return fn(tables...)
 }
-func (fn JoinFn) Right(tables ...TableSpecifier) *DBB {
+func (fn JoinFn) Right(tables ...cond.TableSpecifier) *DBB {
 	return fn(tables...)
 }
-func (fn JoinFn) Cross(tables ...TableSpecifier) *DBB {
+func (fn JoinFn) Cross(tables ...cond.TableSpecifier) *DBB {
 	return fn(tables...)
 }
 
-func (dbb *DBB) Table(table TableSpecifier) *DBB {
+func (dbb *DBB) Table(table cond.TableSpecifier) *DBB {
 	dbb.db = dbb.db.Table(table.ToTableText())
 	return dbb
 }
 
-func (dbb *DBB) Where(conditions ...WhereCondition) *DBB {
+func (dbb *DBB) Where(conditions ...cond.WhereCondition) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Group(expr ...Expression) *DBB {
+func (dbb *DBB) Group(expr ...cond.Expression) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Having(conditions ...WhereCondition) *DBB {
+func (dbb *DBB) Having(conditions ...cond.WhereCondition) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) Window(specs ...WindowSpec) *DBB {
+func (dbb *DBB) Window(specs ...cond.WindowSpec) *DBB {
 	return dbb
 }
 
@@ -86,11 +103,14 @@ func (dbb *DBB) Offset(offset int64) *DBB {
 	return dbb
 }
 
-func (dbb *DBB) On(conditions ...WhereCondition) *DBB {
+func (dbb *DBB) On(conditions ...cond.WhereCondition) *DBB {
 	return dbb
 }
 
 func (dbb *DBB) Find(dest interface{}) error {
+	if len(dbb.selectd) > 0 {
+		return dbb.db.Select(dbb.selectd).Find(dest).Error
+	}
 	return dbb.db.Find(dest).Error
 }
 

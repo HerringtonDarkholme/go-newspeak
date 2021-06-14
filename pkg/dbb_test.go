@@ -5,11 +5,14 @@ import (
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/HerringtonDarkholme/go-newspeak/pkg/col"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 type UserTable struct {
+	Name col.StringColumn
+	Age  col.IntColumn
 }
 
 func (u *UserTable) ToTableText() string {
@@ -22,11 +25,14 @@ func TestQueryGeneration(t *testing.T) {
 		// quotemeta is required since sqlmock is in regex mode
 		mock.ExpectQuery(regexp.QuoteMeta(sql)).
 			WillReturnRows(sqlmock.NewRows(nil))
-		dbb.Find(map[string]interface{}{})
+		_ = dbb.Find(map[string]interface{}{})
 	}
-	u := &UserTable{}
+	u := &UserTable{
+		Name: col.StringColumn{Name: "name"},
+	}
 
 	expectSQl(dbb.Table(u), "SELECT * FROM `test`")
+	expectSQl(dbb.Table(u).Select(u.Name), "SELECT name FROM `test`")
 
 	// sub := dbb.db.Raw("avg(we)")
 
@@ -49,8 +55,6 @@ func newDBB(t *testing.T) (*DBB, sqlmock.Sqlmock) {
 		t.Fatalf("an error '%s' happened during create gorm db", err)
 		return nil, nil
 	}
-	dbb := &DBB{
-		db: gormDB,
-	}
+	dbb := New(gormDB)
 	return dbb, mock
 }

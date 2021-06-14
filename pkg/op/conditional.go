@@ -1,6 +1,6 @@
 package op
 
-import ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
+import ns "github.com/HerringtonDarkholme/go-newspeak/pkg/conditions"
 
 type CaseStruct struct {
 }

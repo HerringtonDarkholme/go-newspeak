@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	ns "github.com/HerringtonDarkholme/go-newspeak/pkg"
+	ns "github.com/HerringtonDarkholme/go-newspeak/pkg/conditions"
 )
 
 type AggregateExpr interface {
