@@ -19,30 +19,6 @@ func (u *UserTable) ToTableText() string {
 	return "test"
 }
 
-func TestQueryGeneration(t *testing.T) {
-	dbb, mock := newDBB(t)
-	expectSQl := func(db *DBB, sql string) {
-		// quotemeta is required since sqlmock is in regex mode
-		mock.ExpectQuery(regexp.QuoteMeta(sql)).
-			WillReturnRows(sqlmock.NewRows(nil))
-		_ = dbb.Find(map[string]interface{}{})
-	}
-	u := &UserTable{
-		Name: col.NewStr("name"),
-		Age:  col.NewInt("age"),
-	}
-
-	expectSQl(dbb.Table(u), "SELECT * FROM `test`")
-	expectSQl(dbb.Table(u).Select(u.Name), "SELECT name FROM `test`")
-	expectSQl(dbb.Table(u).Select(u.Age), "SELECT age FROM `test`")
-
-	// sub := dbb.db.Raw("avg(we)")
-
-	if err := mock.ExpectationsWereMet(); err != nil {
-		t.Errorf("unfulfilled expectations: %s", err)
-	}
-}
-
 func newDBB(t *testing.T) (*DBB, sqlmock.Sqlmock) {
 	db, mock, err := sqlmock.New()
 	if err != nil {
@@ -59,4 +35,47 @@ func newDBB(t *testing.T) (*DBB, sqlmock.Sqlmock) {
 	}
 	dbb := New(gormDB)
 	return dbb, mock
+}
+
+type testCase struct {
+	dbb *DBB
+	sql string
+}
+
+func expectSQl(mock sqlmock.Sqlmock, tests []testCase) func(*testing.T) {
+	for _, test := range tests {
+		dbb, sql := test.dbb, test.sql
+		// quotemeta is required since sqlmock is in regex mode
+		mock.ExpectQuery(regexp.QuoteMeta(sql)).
+			WillReturnRows(sqlmock.NewRows(nil))
+		_ = dbb.Find(map[string]interface{}{})
+	}
+	return func(t *testing.T) {
+		if err := mock.ExpectationsWereMet(); err != nil {
+			t.Errorf("unfulfilled expectations: %s", err)
+		}
+	}
+}
+
+func TestQueryGeneration(t *testing.T) {
+	dbb, mock := newDBB(t)
+	u := &UserTable{
+		Name: col.NewStr("name"),
+		Age:  col.NewInt("age"),
+	}
+	cases := map[string][]testCase{
+		"Simple Query": {
+			{dbb.Table(u), "SELECT * FROM `test`"},
+		},
+		"Select Field": {
+			{dbb.Table(u).Select(u.Name), "SELECT name FROM `test`"},
+			{dbb.Table(u).Select(u.Age), "SELECT age FROM `test`"},
+		},
+	}
+
+	for testName, testCase := range cases {
+		t.Run(testName, expectSQl(mock, testCase))
+	}
+
+	// sub := dbb.db.Raw("avg(we)")
 }

@@ -74,8 +74,9 @@ func (fn JoinFn) Cross(tables ...cond.TableSpecifier) *DBB {
 }
 
 func (dbb *DBB) Table(table cond.TableSpecifier) *DBB {
-	dbb.db = dbb.db.Table(table.ToTableText())
-	return dbb
+	d := New(dbb.db.Session(&gorm.Session{}))
+	d.db = dbb.db.Table(table.ToTableText())
+	return d
 }
 
 func (dbb *DBB) Where(conditions ...cond.WhereCondition) *DBB {
