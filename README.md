@@ -2,9 +2,8 @@
 
 A type-safe, injection-free extension to GORM.
 
-> _War is Peace. Freedom is Slavery. Ignorance is Strength._
->                                  
->                                      —— George Orwell, 1984              
+> _War is Peace. Freedom is Slavery. Ignorance is Strength._                              
+> <span style="color:green">—— George Orwell, 1984</span>             
 
 ## Introduction
 Newspeak provides a set of type-safe and SQL injection-free API to GORM. 
